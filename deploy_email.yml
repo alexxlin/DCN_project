@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: email-deployment 
+  labels:
+    app: email-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: email-deployment
+  template:
+    metadata:
+      labels:
+        app: email-deployment
+    spec:
+      containers:
+      - name: au 
+        image: docker.io/cookmedinner/au:latest
+        ports:
+        - containerPort: 30000
+      - name: ae
+        image: docker.io/cookmedinner/ae:latest 
+        ports:
+        - containerPort: 30001
+      - name: be
+        image: docker.io/cookmedinner/be:latest
+        ports:
+        - containerPort: 30002
+      - name: bu
+        image: docker.io/cookmedinner/bu:latest
+        ports:
+        - containerPort: 30003
+---
+apiVersion: app/vi
+kind: Service
+metadata:
+  name: email-deployment-service
+spec:
+  type: NodePort
+  Ports:
+    - name: au
+      port: 30000
+      targetPort: 30000
+      nodePort: 30000
+    - name: ae
+      port: 30001
+      targetPort: 30001
+      nodePort: 30001
+    - name: be
+      port: 30002
+      targetPort: 30002
+      nodePort: 30002
+    - name: bu
+      port: 30003
+      targetPort: 30003
+      nodePort: 30003
+    selector:
+      app: email_deployment
+   
+    
